@@ -29,6 +29,10 @@ TEST_CASE("init", "Test pointer initialisation") {
     
     assert(p1 == p2);
     assert(p1 == nullptr);
+
+    int b = 33;
+    ptr<int> p4 = raw_ptr(&b);
+    REQUIRE(p3 != p4);
 }
 
 TEST_CASE("deref", "dereference a pointer") {
