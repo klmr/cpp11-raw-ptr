@@ -52,18 +52,6 @@ public:
     template <typename U>
     friend ptr<U> raw_ptr(U*) noexcept;
 
-    /*
-    template <typename T, typename U>
-    friend ptr<T> dynamic_pointer_cast(ptr<U> const& p) noexcept {
-        return raw_ptr(dynamic_cast<T*>(p.value));
-    }
-
-    template <typename T, typename U>
-    friend ptr<T> const_pointer_cast(ptr<U> const& p) noexcept {
-        return raw_ptr(const_cast<T*>(p.value));
-    }
-    */
-
 private:
     pointer value;
 
@@ -111,8 +99,18 @@ inline std::ostream& operator <<(std::ostream& out, ptr<T> p) {
 }
 
 template <typename T, typename U>
-ptr<T> static_pointer_cast(ptr<U> const& p) noexcept {
-    return static_cast<ptr<T>>(p);
+inline ptr<T> static_pointer_cast(ptr<U> const& p) noexcept {
+    return raw_ptr(static_cast<T*>(p.get()));
+}
+
+template <typename T, typename U>
+inline ptr<T> dynamic_pointer_cast(ptr<U> const& p) noexcept {
+    return raw_ptr(dynamic_cast<T*>(p.get()));
+}
+
+template <typename T, typename U>
+inline ptr<T> const_pointer_cast(ptr<U> const& p) noexcept {
+    return raw_ptr(const_cast<T*>(p.get()));
 }
 
 } // namespace base

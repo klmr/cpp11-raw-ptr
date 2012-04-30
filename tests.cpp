@@ -8,6 +8,8 @@
 using base::ptr;
 using base::raw_ptr;
 using base::static_pointer_cast;
+using base::dynamic_pointer_cast;
+using base::const_pointer_cast;
 
 namespace std {
     ostream& operator <<(ostream& out, nullptr_t) { return out << "nullptr"; }
@@ -66,13 +68,42 @@ TEST_CASE("static_cast", "Casting") {
 
     b_t b;
 
-    ptr<b_t> pb = raw_ptr(&b);
+    ptr<b_t> pb1 = raw_ptr(&b);
     ptr<a_t> pa1 = raw_ptr(&b);
-    ptr<a_t> pa2 = static_pointer_cast<a_t>(pb);
+    ptr<a_t> pa2 = static_pointer_cast<a_t>(pb1);
+    ptr<b_t> pb2 = static_pointer_cast<b_t>(pa2);
 
     REQUIRE(pa1 == pa2);
-    REQUIRE(pa1 == pb);
-    REQUIRE(pa2 == pb);
+    REQUIRE(pa1 == pb1);
+    REQUIRE(pa2 == pb1);
+    REQUIRE(pb1 == pb2);
+}
+
+TEST_CASE("dynamic_cast", "Casting") {
+    struct a_t { virtual ~a_t() { } };
+    struct b_t : a_t { };
+    struct c_t : a_t { };
+
+    b_t b;
+
+    ptr<a_t> pa = raw_ptr(&b);
+    ptr<b_t> pb = dynamic_pointer_cast<b_t>(pa);
+    ptr<c_t> pc = dynamic_pointer_cast<c_t>(pa);
+
+    REQUIRE(pa == pb);
+    REQUIRE(pa != pc);
+    REQUIRE(pc == nullptr);
+}
+
+TEST_CASE("const_cast", "Casting") {
+    int a;
+
+    ptr<int> pa1 = raw_ptr(&a);
+    ptr<int const> pca = pa1;
+    ptr<int> pa2 = const_pointer_cast<int>(pca);
+
+    REQUIRE(pa1 == pca);
+    REQUIRE(pa2 == pa1);
 }
 
 TEST_CASE("pointer_traits", "Traits") {
