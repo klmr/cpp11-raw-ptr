@@ -61,9 +61,53 @@ TEST_CASE("swap", "swap pointers") {
 
     REQUIRE(*pa == 42);
     REQUIRE(*pb == 23);
-    // Original values untouched.
+    // Original values remain untouched.
     REQUIRE(a == 23);
     REQUIRE(b == 42);
+}
+
+TEST_CASE("ordering", "Comparison operators") {
+    char ab[] = { 'a', 'b' };
+
+    ptr<char> pa = raw_ptr(&ab[0]);
+    ptr<char> pb = raw_ptr(&ab[1]);
+
+    REQUIRE(not (pa < pa));
+    REQUIRE(pa <= pa);
+    REQUIRE(not (pa > pa));
+    REQUIRE(pa >= pa);
+
+    REQUIRE(pa < pb);
+    REQUIRE(pa <= pb);
+    REQUIRE(not (pa > pb));
+    REQUIRE(not (pa >= pb));
+
+    REQUIRE(not (pb < pa));
+    REQUIRE(not (pb <= pa));
+    REQUIRE(pb > pa);
+    REQUIRE(pb >= pa);
+
+    ptr<char> p0 = nullptr;
+
+    REQUIRE(not (p0 < nullptr));
+    REQUIRE(p0 <= nullptr);
+    REQUIRE(not (p0 > nullptr));
+    REQUIRE(p0 >= nullptr);
+
+    REQUIRE(not (nullptr < p0));
+    REQUIRE(nullptr <= p0);
+    REQUIRE(not (nullptr > p0));
+    REQUIRE(nullptr >= p0);
+
+    REQUIRE(not (pa < nullptr));
+    REQUIRE(not (pa <= nullptr));
+    REQUIRE(pa > nullptr);
+    REQUIRE(pa >= nullptr);
+
+    REQUIRE(nullptr < pa);
+    REQUIRE(nullptr <= pa);
+    REQUIRE(not (nullptr > pa));
+    REQUIRE(not (nullptr >= pa));
 }
 
 TEST_CASE("static_cast", "Casting") {

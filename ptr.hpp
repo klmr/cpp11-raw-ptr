@@ -113,6 +113,66 @@ inline ptr<T> const_pointer_cast(ptr<U> const& p) noexcept {
     return raw_ptr(const_cast<T*>(p.get()));
 }
 
+template <typename T, typename U>
+inline bool operator <(ptr<T> const& lhs, ptr<U> const& rhs) noexcept {
+    return lhs.get() < rhs.get();
+}
+
+template <typename T>
+inline bool operator <(ptr<T> const&, std::nullptr_t) noexcept {
+    return false;
+}
+
+template <typename T>
+inline bool operator <(std::nullptr_t, ptr<T> const& rhs) noexcept {
+    return rhs.get() != nullptr;
+}
+
+template <typename T, typename U>
+inline bool operator <=(ptr<T> const& lhs, ptr<U> const& rhs) noexcept {
+    return lhs.get() <= rhs.get();
+}
+
+template <typename T>
+inline bool operator <=(ptr<T> const& lhs, std::nullptr_t) noexcept {
+    return lhs.get() == nullptr;
+}
+
+template <typename T>
+inline bool operator <=(std::nullptr_t, ptr<T> const&) noexcept {
+    return true;
+}
+
+template <typename T, typename U>
+inline bool operator >(ptr<T> const& lhs, ptr<U> const& rhs) noexcept {
+    return lhs.get() > rhs.get();
+}
+
+template <typename T>
+inline bool operator >(ptr<T> const& lhs, std::nullptr_t) noexcept {
+    return lhs != nullptr;
+}
+
+template <typename T>
+inline bool operator >(std::nullptr_t, ptr<T> const&) noexcept {
+    return false;
+}
+
+template <typename T, typename U>
+inline bool operator >=(ptr<T> const& lhs, ptr<U> const& rhs) noexcept {
+    return lhs.get() >= rhs.get();
+}
+
+template <typename T>
+inline bool operator >=(ptr<T> const&, std::nullptr_t) noexcept {
+    return true;
+}
+
+template <typename T>
+inline bool operator >=(std::nullptr_t, ptr<T> const& rhs) noexcept {
+    return nullptr == rhs.get();
+}
+
 } // namespace base
 
 namespace std {
@@ -125,8 +185,6 @@ namespace std {
         template <typename U> using rebind = base::ptr<U>;
     };
 } // namespace std
-
-// TODO Implement strict weak ordering so it can be used in an ordered map
 
 namespace std {
     template <typename T>
