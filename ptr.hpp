@@ -184,9 +184,7 @@ namespace std {
 
         template <typename U> using rebind = base::ptr<U>;
     };
-} // namespace std
 
-namespace std {
     template <typename T>
     struct hash<base::ptr<T>> {
         typedef size_t result_type;
