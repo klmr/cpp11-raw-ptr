@@ -1,4 +1,11 @@
 #include <type_traits>
+#include <string>
+
+namespace Catch {
+    inline std::string toString (std::nullptr_t) {
+        return "nullptr";
+    }
+}
 
 #define CATCH_CONFIG_MAIN
 #include <catch.hpp>
@@ -10,10 +17,6 @@ using base::raw_ptr;
 using base::static_pointer_cast;
 using base::dynamic_pointer_cast;
 using base::const_pointer_cast;
-
-namespace std {
-    ostream& operator <<(ostream& out, nullptr_t) { return out << "nullptr"; }
-}
 
 TEST_CASE("init", "Test pointer initialisation") {
     ptr<int> p1;
