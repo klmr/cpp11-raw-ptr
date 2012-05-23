@@ -1,13 +1,8 @@
 #include <type_traits>
 #include <string>
 
-namespace Catch {
-    inline std::string toString (std::nullptr_t) {
-        return "nullptr";
-    }
-}
-
 #define CATCH_CONFIG_MAIN
+#define CATCH_CONFIG_CPP11_NULLPTR
 #include <catch.hpp>
 
 #include "ptr.hpp"
