@@ -1,7 +1,6 @@
 #ifndef BASE_PTR_HPP
 #define BASE_PTR_HPP
 
-#include <iostream>
 #include <memory>
 
 namespace base {
@@ -91,11 +90,6 @@ inline bool operator !=(ptr<T> const& lhs, std::nullptr_t) noexcept {
 template <typename T>
 inline bool operator !=(std::nullptr_t, ptr<T> const& rhs) noexcept {
     return rhs.get() != nullptr;
-}
-
-template <typename T>
-inline std::ostream& operator <<(std::ostream& out, ptr<T> p) {
-    return out << p.get();
 }
 
 template <typename T, typename U>
