@@ -16,15 +16,17 @@ public:
 
     constexpr ptr(std::nullptr_t) noexcept : value() { }
 
+    // This declaration is necessary to keep the type trivial, even though the
+    // templated definition below would otherwise serve the same semantics.
     ptr(ptr const& other) noexcept = default;
-
-    ptr(ptr&& other) noexcept = default;
 
     template <typename U>
     friend class ptr;
 
     template <typename Other>
     ptr(ptr<Other> const& other) noexcept : value(other.value) { }
+
+    ptr(ptr&& other) noexcept = default;
 
     ~ptr() = default;
 
@@ -48,6 +50,9 @@ public:
 private:
     pointer value;
 
+    // We want to force users to use the builder function `raw_ptr`, rather than
+    // using a converting constructor to create a `ptr` instance from a raw T*.
+    // This makes it explicit that we are intentionally handling a raw pointer.
     explicit ptr(pointer value) noexcept : value(value) { }
 };
 
