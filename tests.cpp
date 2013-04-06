@@ -157,9 +157,7 @@ TEST_CASE("const_cast", "Casting") {
 TEST_CASE("auto-generated", "Test whether auto-generated members work") {
     ptr<int> a = nullptr;
     ptr<int> b;
-
-    REQUIRE(a == b);
-
+    // N.B.: Since ptr is a trivial type, we do not expect `a == b`.
     ptr<int> c(a);
     ptr<int> d(std::move(d));
 }

@@ -12,13 +12,13 @@ public:
     typedef T* pointer;
     typedef T& reference;
 
-    constexpr ptr() noexcept : value() { }
+    constexpr ptr() noexcept = default;
 
     constexpr ptr(std::nullptr_t) noexcept : value() { }
 
-    ptr(ptr const& other) noexcept : value(other.value) { }
+    ptr(ptr const& other) noexcept = default;
 
-    ptr(ptr&& other) noexcept : value(other.value) { }
+    ptr(ptr&& other) noexcept = default;
 
     template <typename U>
     friend class ptr;
@@ -26,17 +26,11 @@ public:
     template <typename Other>
     ptr(ptr<Other> const& other) noexcept : value(other.value) { }
 
-    ~ptr() { }
+    ~ptr() = default;
 
-    ptr& operator =(ptr other) noexcept {
-        value = other.value;
-        return *this;
-    }
+    ptr& operator =(ptr const& other) noexcept = default;
 
-    ptr& operator =(ptr&& other) noexcept {
-        value = other.value;
-        return *this;
-    }
+    ptr& operator =(ptr&& other) noexcept = default;
 
     pointer get() const noexcept { return value; }
 
