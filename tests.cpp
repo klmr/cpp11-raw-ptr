@@ -17,7 +17,7 @@ using base::const_pointer_cast;
 TEST_CASE("init", "Test pointer initialisation") {
     ptr<int> p1;
     REQUIRE(p1 == nullptr);
-    
+
     ptr<int> p2 = nullptr;
     REQUIRE(p1 == p2);
 
@@ -25,7 +25,7 @@ TEST_CASE("init", "Test pointer initialisation") {
     ptr<int> p3 = raw_ptr(&a);
     REQUIRE(p3 != nullptr);
     REQUIRE(*p3 == a);
-    
+
     assert(p1 == p2);
     assert(p1 == nullptr);
 
