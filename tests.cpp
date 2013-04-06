@@ -4,7 +4,7 @@
 
 #define CATCH_CONFIG_MAIN
 #define CATCH_CONFIG_CPP11_NULLPTR
-#include <catch.hpp>
+#include "catch.hpp"
 
 #include "ptr.hpp"
 
