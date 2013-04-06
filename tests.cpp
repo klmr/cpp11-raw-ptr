@@ -1,5 +1,6 @@
 #include <type_traits>
 #include <string>
+#include <utility>
 
 #define CATCH_CONFIG_MAIN
 #define CATCH_CONFIG_CPP11_NULLPTR
@@ -45,7 +46,7 @@ TEST_CASE("deref", "dereference a pointer") {
     REQUIRE(x == 12);
 }
 
-TEST_CASE("swap", "swap pointers") {
+TEST_CASE("swap", "Swap pointers") {
     int a = 23;
     int b = 42;
 
@@ -55,6 +56,7 @@ TEST_CASE("swap", "swap pointers") {
     REQUIRE(*pa == 23);
     REQUIRE(*pb == 42);
 
+    using std::swap;
     swap(pa, pb);
 
     REQUIRE(*pa == 42);
@@ -150,6 +152,16 @@ TEST_CASE("const_cast", "Casting") {
 
     REQUIRE(pa1 == pca);
     REQUIRE(pa2 == pa1);
+}
+
+TEST_CASE("auto-generated", "Test whether auto-generated members work") {
+    ptr<int> a = nullptr;
+    ptr<int> b;
+
+    REQUIRE(a == b);
+
+    ptr<int> c(a);
+    ptr<int> d(std::move(d));
 }
 
 TEST_CASE("pointer_traits", "Traits") {
