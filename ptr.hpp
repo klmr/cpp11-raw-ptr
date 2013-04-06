@@ -40,10 +40,6 @@ public:
 
     pointer operator ->() const noexcept { return get(); }
 
-    friend void swap(ptr& lhs, ptr& rhs) noexcept {
-        std::swap(lhs.value, rhs.value);
-    }
-
     template <typename U>
     friend ptr<U> raw_ptr(U*) noexcept;
 
