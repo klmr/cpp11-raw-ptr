@@ -9,8 +9,8 @@ template <typename T>
 class ptr {
 public:
 
-    typedef T* pointer;
-    typedef T& reference;
+    using pointer = T*;
+    using reference = T&;
 
     constexpr ptr() noexcept = default;
 
@@ -171,17 +171,18 @@ inline bool operator >=(std::nullptr_t, ptr<T> const& rhs) noexcept {
 namespace std {
     template <typename T>
     struct pointer_traits<base::ptr<T>> {
-        typedef T* pointer;
-        typedef T element_type;
-        typedef ptrdiff_t difference_type;
+        using pointer = T*;
+        using element_type = T;
+        using difference_type = ptrdiff_t;
 
-        template <typename U> using rebind = base::ptr<U>;
+        template <typename U>
+        using rebind = base::ptr<U>;
     };
 
     template <typename T>
     struct hash<base::ptr<T>> {
-        typedef size_t result_type;
-        typedef base::ptr<T> argument_type;
+        using result_type = size_t;
+        using argument_type = base::ptr<T>;
 
         result_type operator ()(argument_type const& p) const noexcept {
             return std::hash<typename base::ptr<T>::pointer>()(p.get());
