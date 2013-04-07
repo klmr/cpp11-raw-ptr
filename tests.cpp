@@ -166,6 +166,8 @@ TEST_CASE("pointer_traits", "Traits") {
     using std::pointer_traits;
     using std::is_same;
 
+    static_assert(std::is_trivial<ptr<int>>::value, "ptr is not trivial");
+
     static_assert(
         is_same<
             pointer_traits<int*>::pointer,

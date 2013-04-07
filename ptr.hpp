@@ -16,23 +16,11 @@ public:
 
     constexpr ptr(std::nullptr_t) noexcept : value() { }
 
-    // This declaration is necessary to keep the type trivial, even though the
-    // templated definition below would otherwise serve the same semantics.
-    ptr(ptr const& other) noexcept = default;
-
     template <typename U>
     friend class ptr;
 
     template <typename Other>
     ptr(ptr<Other> const& other) noexcept : value(other.value) { }
-
-    ptr(ptr&& other) noexcept = default;
-
-    ~ptr() = default;
-
-    ptr& operator =(ptr const& other) noexcept = default;
-
-    ptr& operator =(ptr&& other) noexcept = default;
 
     pointer get() const noexcept { return value; }
 
